@@ -1,0 +1,182 @@
+@charset "utf-8";
+
+header {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  z-index: 1000;
+}
+
+a.skip-map {
+    position:absolute;
+    left:-999px;
+    z-index:-99;
+    width:1px;
+    height:1px;
+    overflow:hidden;
+}
+
+#map {
+  height: 100%;
+}
+
+#restaurant-container p {
+  margin: 0px;
+}
+
+@media screen and (max-width: 450px) {
+
+  header {
+    position: relative;
+  }
+
+
+  #map-container {
+    top: 80px;
+    right: 0px;
+    order: 2;
+    width: 100%;
+    height: 400px;
+  }
+
+  #neighborhoods-select {
+    width: 50%;
+    min-width: 160px;
+    height: 20px;
+  }
+
+  #cuisines-select {
+    width: 50%;
+    min-width: 160px;
+    height: 20px;
+  }
+
+  .filter-options {
+    padding: 5px 5px;
+    height: 75px;
+    width: calc(100% - 10px);
+  }
+
+  #restaurants-list {
+    text-align: center;
+    width: 100%;
+    margin: 0;
+    padding: 10px 0px;
+  }
+
+  #restaurants-list li {
+    width: calc(100% - 10px);
+    margin: 5px 0px;
+    padding: 5px;
+    border: none;
+  }
+
+  #restaurants-list li a {
+    margin: 15px 0 5px calc(100% / 2 - (100px + 30px + 30px) / 2);
+  }
+
+
+  #footer {
+    padding: 5px;
+    width: calc(100% - 10px);
+  }
+
+}
+
+@media screen and (min-width: 451px) and (max-width: 1000px) {
+
+  header {
+    position: relative;
+  }
+
+  #map-container {
+    top: 80px;
+    right: 0px;
+    order: 2;
+    width: 100%;
+    height: 500px;
+  }
+
+  #list-container {
+    position: relative;
+    width: 100%;
+  }
+
+  .filter-options {
+    padding: 5px 0px;
+    height: 60px;
+  }
+
+  #restaurants-list {
+    padding-top: 10px;
+  }
+
+  #restaurants-list li {
+    width: 90%;
+    padding: 20px 20px 25px;
+  }
+
+  #restaurants-list li a {
+    margin: 15px 0 5px calc(100% / 2 - (100px + 30px + 30px) / 2);
+  }
+
+  #footer {
+    position: absolute;
+    bottom: 0px;
+    height: 10px;
+    width: calc(100% - 50px);
+  }
+
+}
+
+@media screen and (min-width: 1001px) {
+
+  header {
+    position: relative;
+  }
+
+  #map-container {
+    top: 80px;
+    right: 0px;
+    order: 2;
+    width: 100%;
+    height: 500px;
+  }
+
+  #list-container {
+    position: relative;
+    width: 100%;
+  }
+
+  .filter-options {
+    padding: 5px 0px;
+    height: 60px;
+  }
+
+  #restaurants-list {
+    padding-top: 10px;
+  }
+
+  #restaurants-list li {
+    width: 270px;
+    height: 350px;
+    padding: 20px 20px 35px;
+    display: inline-block;
+  }
+
+  #restaurants-list .restaurant-img {
+  	width: 100%;
+  }
+
+  #restaurants-list li a {
+    margin: 15px 0 5px calc(100% / 2 - (100px + 30px + 30px) / 2);
+  }
+
+  #footer {
+    position: absolute;
+    bottom: 0px;
+    height: 10px;
+    width: calc(100% - 50px);
+  }
+
+}
