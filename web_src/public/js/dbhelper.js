@@ -82,6 +82,29 @@ class DBHelper {
 
   } 
 
+  static toggleFavorite(restaurant, isFavorite, callback) {
+    let options = {
+      method: "PUT",
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      }
+    };
+
+    fetch("http://localhost:1337/restaurants/" + restaurant.id + "/?is_favorite=" + isFavorite, options)
+      .then((response) => {
+        return response.json();
+      })
+      .then((responseText) => {
+        console.log(responseText);
+        callback(true);
+      })
+      .catch((error) => {
+        console.log(error);
+        callback(false);
+      });
+  }
+
   static syncReview() {
     const db = indexedDB.open(DBHelper.DATABASE_NAME, 1);
 

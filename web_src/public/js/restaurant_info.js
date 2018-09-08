@@ -55,6 +55,15 @@ fillRestaurantHTML = (restaurant = self.restaurant) => {
   const name = document.getElementById('restaurant-name');
   name.innerHTML = restaurant.name;
 
+console.log(restaurant);
+// console.log(restaurant.is_favorite == "true");
+  const favorite = document.getElementById("restaurant-favorite-img");
+  if (restaurant.is_favorite == "true") {
+    favorite.src = "/img/starred.png";
+  } else {
+    favorite.src = "/img/notStarred.png";
+  }
+
   const address = document.getElementById('restaurant-address');
   address.innerHTML = restaurant.address;
 
@@ -127,8 +136,6 @@ createReviewHTML = (review) => {
   li.appendChild(name);
 
   const date = document.createElement('p');
-  // date.innerHTML = review.date;
-  // date.innerHTML = review.createdAt.toDateString();
   date.innerHTML = new Date(review.createdAt).toDateString();
   li.appendChild(date);
 
@@ -211,32 +218,18 @@ reviewForm.addEventListener('submit', function (event) {
 });
 
 
-
-
-
-// fillReviewsHTML = (reviews = self.restaurant.reviews) => {
-//   const container = document.getElementById('reviews-container');
-//   const title = document.createElement('h2');
-//   title.innerHTML = 'Reviews';
-//   container.appendChild(title);
-
-//   if (!reviews) {
-//     const noReviews = document.createElement('p');
-//     noReviews.innerHTML = 'No reviews yet!';
-//     container.appendChild(noReviews);
-//     return;
-//   }
-//   const ul = document.getElementById('reviews-list');
-//   reviews.forEach(review => {
-//     ul.appendChild(createReviewHTML(review));
-//   });
-//   container.appendChild(ul);
-// }
-
-
-
-
-
-
-
+// like
+toggle = () => {
+  if (self.restaurant.is_favorite == true) {
+    DBHelper.toggleFavorite(self.restaurant, false, function (result) {
+      self.restaurant.is_favorite = false;
+      document.getElementById("restaurant-favorite-img").src="/img/notStarred.png";
+    });
+  } else {
+    DBHelper.toggleFavorite(self.restaurant, true, function (result) {
+      self.restaurant.is_favorite = true;
+      document.getElementById("restaurant-favorite-img").src="/img/starred.png";
+    });
+  }
+}
 

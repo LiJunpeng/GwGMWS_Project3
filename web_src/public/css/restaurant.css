@@ -29,6 +29,29 @@ a.skip-map {
   margin: 0px;
 }
 
+#restaurant-favorite {
+  display: inline;
+}
+
+#new-review-form-container {
+  margin: 0 0 30px;
+  padding: 20px 10px;
+  border-top: 2px solid #d9d9d9;
+}
+
+#new-review-form {
+  width: 85%;
+  height: auto;
+  padding: 0 20px 20px;
+}
+
+.form-item {
+  width: calc(100% - 60px);
+}
+
+input, textarea, select {
+    width: 100%;
+}
 
 
 @media screen and (max-width: 450px) {
@@ -132,6 +155,13 @@ a.skip-map {
 	right: 0px;
 	order: 2;
 	height: calc(100% - 80px - 60px);
+  }
+
+  #new-review-form-container {
+    width: 50%;
+    margin: 0 0 30px;
+    padding: 20px 10px;
+    border-top: 2px solid #d9d9d9;
   }
 
 

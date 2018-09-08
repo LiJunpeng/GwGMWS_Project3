@@ -21,7 +21,7 @@ self.addEventListener('fetch', function(event) {
   console.log("fetch");
   event.respondWith(
     caches.match(event.request, {ignoreSearch: true}).then(function(response) {
-      console.log(event.request);
+      // console.log(event.request);
       if (response) {
         return response;
       } else {
