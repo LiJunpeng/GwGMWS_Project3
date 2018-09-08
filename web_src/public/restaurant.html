@@ -53,6 +53,64 @@
       <ul id="reviews-list"></ul>
     </section>
     <!-- End reviews -->
+    <!--Beginning review form -->
+    <section id="new-review-form-container" tabindex="0" aria-label="adding a new review">
+        <h2>Add a Review</h2>
+        <form id="new-review-form">
+
+          <label for="name">Name</label>
+          <input type="text" name="form-name" id="form-name" aria-required="true">
+
+          <label for="rating">Rating</label>
+          <select id="form-rating" name="rating" aria-required="true">
+            <option>1</option>
+            <option>2</option>
+            <option>3</option>
+            <option>4</option>
+            <option>5</option>
+          </select>
+
+          <label for="comments">Comments</label>
+          <textarea id="form-comments" name="comments" rows="20" column="100" aria-required="true"></textarea>
+
+          <button type="submit" value="Submit" id="form-submit">submit your review</button>
+
+<!--                     <div class="review-fullwidth">
+                        <label for="name">Your Name
+                            <span class="review-required">(required)</span>:</label>
+                        <br>
+                        <input name="name" type="text" id="name" autocomplete="name" aria-required="true">
+                    </div>
+                    <div class="review-fullwidth">
+                        <label for="rating">Rating
+                            <span class="review-required">(required)</span>:</label>
+                        <br>
+                        <select name="rating" id="rating" aria-required="true" autocomplete="nope">
+                            <option value="" selected disabled hidden>Choose Rating</option>
+                            <option>1</option>
+                            <option>2</option>
+                            <option>3</option>
+                            <option>4</option>
+                            <option>5</option>
+                        </select>
+                    </div>
+                    <div class="review-fullwidth">
+                        <label for="comments">Comments
+                            <span class="review-required">(required)</span>:</label>
+                        <br>
+                        <textarea id="comments" name="comments" rows="10" column="100" aria-required="true"></textarea>
+                    </div>
+                    <div class="review-fullwidth" style="display: flex; justify-content: space-around">
+                        <button type="submit" value="Submit" id="review-submit">Send Comment</button>
+                        <button type="reset" value="Reset" id="review-reset">Reset</button>
+                    </div> -->
+
+
+
+        </form>
+    </section>
+    <!-- End review form -->
+
   </main>
   <!-- End main -->
 

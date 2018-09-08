@@ -27,6 +27,105 @@ class DBHelper {
     return url + ":" + port + "/" + param;
   }
 
+/**
+* Dealing with reviews
+*/
+  static addNewReview(review) {
+    console.log(review);
+
+    let options = {
+      method: "POST",
+      body: JSON.stringify(review),
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      }
+    };
+
+    fetch("http://localhost:1337/reviews", options)
+      .then((response) => {
+        return response.json();
+      })
+      .then((responseText) => {
+        console.log(responseText);
+      })
+      .catch((error) => {
+        console.log(error);
+
+        const db = indexedDB.open(DBHelper.DATABASE_NAME, 1);
+
+        db.onsuccess=function(event){
+            const db = event.target.result;
+
+            // return existing result from db
+            const transaction = db.transaction('WAITING_SYNC','readwrite'); 
+            const store = transaction.objectStore('WAITING_SYNC'); 
+
+            store.put(review);
+        };
+
+        db.onerror = function(event) {
+          console.log("Can't open indexedDB, fetch from server");
+          DBHelper.fetchRestaurantsFromServer(callback);
+        };
+        db.onupgradeneeded = function(event) {
+          const db = event.target.result;
+
+          let restaurantStore = db.createObjectStore('WAITING_SYNC', { keyPath: "id" });
+          // restaurantStore.createIndex("name", "name", { unique: true });
+          // restaurantStore.createIndex("neighborhood", "neighborhood", { unique: false });
+
+          console.log("restaurantStore created");
+
+        };
+      });
+
+  } 
+
+  static syncReview() {
+    const db = indexedDB.open(DBHelper.DATABASE_NAME, 1);
+
+    db.onsuccess=function(event){
+        const db = event.target.result;
+
+        // return existing result from db
+        const transaction = db.transaction('WAITING_SYNC','readwrite'); 
+        const store = transaction.objectStore('WAITING_SYNC'); 
+
+        store.getAll().onsuccess = function(event) {
+          const result = event.target.result;
+          if (result && result.length != 0) {
+            for (let review of result) {
+              // console.log(review);
+              DBHelper.addNewReview(review);
+            }
+            
+            const transaction2 = db.transaction('WAITING_SYNC','readwrite'); 
+            const store2 = transaction.objectStore('WAITING_SYNC'); 
+            store2.clear();
+          } 
+        };
+
+    };
+
+    db.onerror = function(event) {
+      console.log("Can't open indexedDB, fetch from server");
+      DBHelper.fetchRestaurantsFromServer(callback);
+    };
+    db.onupgradeneeded = function(event) {
+      const db = event.target.result;
+
+      // create for offline sync
+      db.createObjectStore('WAITING_SYNC', { keyPath: "id" });
+
+      console.log("restaurantStore created");
+
+    };
+  }
+
+/**
+* Fetch data
+*/
   static fetchRestaurantsFromServer(callback) {
     console.log("fetch from server");
     fetch(DBHelper.DATABASE_URL)
@@ -95,6 +194,9 @@ class DBHelper {
       restaurantStore.createIndex("name", "name", { unique: true });
       restaurantStore.createIndex("neighborhood", "neighborhood", { unique: false });
 
+      // create for offline sync
+      db.createObjectStore('WAITING_SYNC', { keyPath: "id" });
+
       console.log("restaurantStore created");
 
     };
@@ -112,7 +214,23 @@ class DBHelper {
       } else {
         const restaurant = restaurants.find(r => r.id == id);
         if (restaurant) { // Got the restaurant
-          callback(null, restaurant);
+
+          console.log(restaurant);
+          fetch("http://localhost:1337/reviews/?restaurant_id=" + restaurant.id)
+            .then(function (response) {
+              return response.json();
+            })
+            .then(function (reviews) {
+              console.log(reviews);
+              restaurant["reviews"] = reviews || [];
+              callback(null, restaurant);
+            })
+            .catch(function (error) {
+              console.log(error);
+            });
+
+
+          // callback(null, restaurant);
         } else { // Restaurant does not exist in the database
           callback('Restaurant does not exist', null);
         }

@@ -18,6 +18,9 @@ window.initMap = () => {
       DBHelper.mapMarkerForRestaurant(self.restaurant, self.map);
     }
   });
+
+  // check if there reviews to be sync
+  DBHelper.syncReview();
 }
 
 /**
@@ -124,7 +127,9 @@ createReviewHTML = (review) => {
   li.appendChild(name);
 
   const date = document.createElement('p');
-  date.innerHTML = review.date;
+  // date.innerHTML = review.date;
+  // date.innerHTML = review.createdAt.toDateString();
+  date.innerHTML = new Date(review.createdAt).toDateString();
   li.appendChild(date);
 
   const rating = document.createElement('p');
@@ -164,3 +169,74 @@ getParameterByName = (name, url) => {
     return '';
   return decodeURIComponent(results[2].replace(/\+/g, ' '));
 }
+
+
+
+// dealing with new review
+let reviewForm = this.document.getElementById('new-review-form');
+reviewForm.addEventListener('submit', function (event) {
+  event.preventDefault();
+  let restaurant_id = getParameterByName('id');
+  let name = document.getElementById('form-name').value;
+  let date = new Date();
+  let rating = document.getElementById('form-rating').value;
+  let comments = document.getElementById('form-comments').value;
+
+  // validate review
+  if (name && rating && comments) {
+    let count = (self.restaurant && self.restaurant.reviews) ? self.restaurant.reviews.length : 0;
+
+    let newReview = {
+      id: count + 1,
+      restaurant_id: restaurant_id,
+      name: name,
+      createdAt: date,
+      rating: rating,
+      comments: comments
+    };
+
+    DBHelper.addNewReview(newReview);
+
+    // fill review
+    self.restaurant.reviews = self.restaurant.reviews || [];
+    self.restaurant.reviews.push(newReview);
+    console.log(self.restaurant);
+    document.getElementById("reviews-container").innerHTML = "<ul id=\"reviews-list\"></ul>";
+    fillReviewsHTML();
+
+  } else {
+    alert("Please fill all fields!");
+  }
+
+});
+
+
+
+
+
+// fillReviewsHTML = (reviews = self.restaurant.reviews) => {
+//   const container = document.getElementById('reviews-container');
+//   const title = document.createElement('h2');
+//   title.innerHTML = 'Reviews';
+//   container.appendChild(title);
+
+//   if (!reviews) {
+//     const noReviews = document.createElement('p');
+//     noReviews.innerHTML = 'No reviews yet!';
+//     container.appendChild(noReviews);
+//     return;
+//   }
+//   const ul = document.getElementById('reviews-list');
+//   reviews.forEach(review => {
+//     ul.appendChild(createReviewHTML(review));
+//   });
+//   container.appendChild(ul);
+// }
+
+
+
+
+
+
+
+
